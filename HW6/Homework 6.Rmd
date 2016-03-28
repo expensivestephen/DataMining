@@ -1,0 +1,271 @@
+---
+title: "Untitled"
+author: "Kenigbolo Meya Stephen"
+date: "March 14, 2016"
+output: 
+  html_document: 
+    toc: yes
+---
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+1. Construct an FP-tree using the same data set as last week (use the support count threshold smin = 2). Explain all the steps of the tree construction and draw a resulting tree. Based on this tree answer the questions: how many transactions contain {E,F} and {C,H} ?
+
+```{r}
+library(arules)
+abcset <- read.transactions("C:/Users/Kenigbolo PC/Desktop/Data Mining/abcset.csv", rm.duplicates= FALSE, format="basket", sep=",")
+
+
+inspect(abcset)
+
+
+```
+
+{E,F} = 3
+{H,C} = 4
+
+2. Evaluate various interestingness measures for association rules. Generate randomly a broad range of various 2x2 contingency tables (f11, f10, f01, f00) for N=10,000 items. Sample the space so that each cell individually, in pairs, or triples is larger than "others". In this way sample at least 10,000 different possible contingency tables. Calculate 5 various scores based on those data (feel free to select) and report 10 top 2x2 tables that are the "best" according to that measure. Use rows to represent the 4 numbers; and if useful, also the marginal sums and N.
+
+```{r}
+randomtablevalues <- sample(1:4,1000,rep=TRUE,prob=c(.2,.3,.2,.3))
+table(randomtablevalues)
+func = ceiling(runif(10000, 0,1000))
+randomGen = t(sapply(func, function(z) c(z, 4*z, 3*z, 2*z)))
+
+colnames(randomGen) <- c("f11","f01","f10","f00")
+
+F1plus <- rowSums(randomGen[, c(1, 3)])
+F0plus <- rowSums(randomGen[, c(2, 4)])
+Fplus1 <- rowSums(randomGen[, c(1, 2)])
+Fplus0 <- rowSums(randomGen[, c(3, 4)])
+T <- rowSums(randomGen[, c(1, 2, 3, 4)])
+
+randomGen <- cbind(randomGen, F1plus)
+randomGen <- cbind(randomGen, F0plus)
+randomGen <- cbind(randomGen, Fplus1 )
+randomGen <- cbind(randomGen, Fplus0 )
+randomGen <- cbind(randomGen, T )
+
+
+oddsRatiofunction <- function(f11,f01,f10,f00) {
+    oddsratio <- ((f11/f00)/(f10/f01))
+    return(oddsratio)
+}
+
+jaccard <- function(f11,F1plus,Fplus1) {
+  jaccard <- (f11/(F1plus+Fplus1-f11))
+  return(jaccard)
+}
+
+laplace <- function(f11,F1plus) {
+  laplace <- ((f11+1)/(F1plus+2))
+  return (laplace)
+}
+
+certainityFactor <- function(f11,F1plus,Fplus1){
+  certfact <-  (((f11/F1plus)-(Fplus1/10000))/(1-(Fplus1/10000)))
+  return (certfact)
+}
+
+addedValue <- function(f11,F1plus,Fplus1){
+  addedvalue <-  (((f11/F1plus)-(Fplus1/10000)))
+  return (addedvalue)
+}
+
+jaccard <- jaccard(randomGen[,c(1)], randomGen[,c(5)], randomGen[,c(7)])
+oddRatio <- oddsRatiofunction(randomGen[,c(1)], randomGen[,c(2)], randomGen[,c(3)], randomGen[,c(4)])
+laplace <- laplace(randomGen[,c(1)], randomGen[,c(5)])
+certainityFactor <- certainityFactor(randomGen[,c(1)],randomGen[,c(5)], randomGen[,c(7)])
+addedValue <- addedValue(randomGen[,c(1)],randomGen[,c(5)], randomGen[,c(7)])
+
+
+randomGen <- cbind(randomGen, oddRatio)
+randomGen <- cbind(randomGen, jaccard)
+randomGen <- cbind(randomGen, laplace)
+randomGen <- cbind(randomGen, certainityFactor)
+randomGen <- cbind(randomGen, addedValue)
+
+
+top10 <- subset(randomGen, laplace < 0.27)
+head(top10, 10)
+```
+
+
+3. Compare interestingness measures starting from various fixed examples of (f11, f10, f01, f00) and experimenting with each of the four values - by increasing or decreasing it, one at a time.
+```{r}
+
+newRandGen <- head(randomGen, 1)
+print(newRandGen)
+
+newRandGen[1, 1] + 10
+
+addedValuefunc <- function(f11,F1plus,Fplus1){
+  addedvalue <-  (((f11/F1plus)-(Fplus1/10000)))
+  return (addedvalue)
+}
+addedValue <- addedValuefunc(newRandGen[,c(1)],newRandGen[,c(5)], newRandGen[,c(7)])
+print(addedValue)
+
+
+
+newRandGen[1, 2] + 10
+
+
+addedValue <- addedValuefunc(newRandGen[,c(1)],newRandGen[,c(5)], newRandGen[,c(7)])
+print(addedValue)
+
+newRandGen[1, 3] + 10
+
+
+
+addedValue <- addedValuefunc(newRandGen[,c(1)],newRandGen[,c(5)], newRandGen[,c(7)])
+print(addedValue)
+
+newRandGen[1, 4] + 10
+
+
+addedValue <- addedValuefunc(newRandGen[,c(1)],newRandGen[,c(5)], newRandGen[,c(7)])
+print(addedValue)
+
+```
+
+From the above we can see that the addedvalue measure doesn't change at all even though we increase the values one at a time.
+
+
+4. Install R packages arules and arulesViz
+Get the Titanic survival data from https://courses.cs.ut.ee/MTAT.03.183/2014_spring/uploads/Main/titanic.txt
+
+Make sure to explore all these commands, vary parameters, read the manual ... Try to vary them to provide nice interpretable outputs. See also 6. and 7.
+
+```{r}
+library(arulesViz)
+library(arulesViz)
+
+titanic <- read.table( "C:/Users/Kenigbolo PC/Desktop/Data Mining/titanic.txt", sep = ',' , header = TRUE)
+
+#observe the data
+##first 6 observations
+head(titanic)
+#types of features
+str(titanic)
+#dimensionality of the data
+dim(titanic)
+
+#load package for frequent set mining
+library(arules)
+
+
+#run apriori algorithm with default settings
+rules = apriori(titanic)
+
+#inspection of the result
+inspect(rules)
+
+#now let us assume, we want to see only those rules that have rhs as survived:
+rules = apriori(titanic,appearance = list(rhs=c("Survived=No", "Survived=Yes"),default="lhs"))
+inspect(rules)
+
+#let us relax the default settings for the rules we are looking for 
+rules = apriori(titanic,parameter = list(minlen=2, supp=0.04, conf=0.8),appearance = list(rhs=c("Survived=No", "Survived=Yes"),default="lhs"))
+
+#visualization
+library(arulesViz)
+plot(rules)
+
+plot(rules, method="graph", control=list(type="items"))
+
+
+plot(rules, method="paracoord", control=list(reorder=TRUE))
+
+
+```
+
+5. Report clearly the most "interesting" rules discovered from Titanic data, and how you came up with those in R.
+
+```{r}
+rules <- apriori(titanic, parameter = list(minlen=2, supp=0.005, conf=0.8), appearance =list(rhs=c("Survived=No", "Survived=Yes"), default="lhs"), control = list(verbose=F))
+
+#I will output interestingness based on Lift
+sortedrulesdata <- sort(rules, by="lift")
+inspect(sortedrulesdata)
+
+## I will calculate hyperconfidence and add it to the quality slot for my sorted rules
+quality(sortedrulesdata) <- cbind(quality(sortedrulesdata), hyperConfidence = interestMeasure(rules, measure = "hyperConfidence", transactions = titanic))
+
+## I will output the hyperconfidence in my "interesting" rules also
+inspect(head(sort(sortedrulesdata, by = "hyperConfidence")))
+
+#I will output interestingness based on hyperConfidence measure for the first five values
+hyperconfidence <- sort(sortedrulesdata, by="hyperConfidence")
+inspect(hyperconfidence)
+
+## Now I will calculate measures of leverage and oddsRatio 
+interesting <- interestMeasure(rules, c("leverage", "oddsRatio" ), transactions = titanic)
+inspect(head(rules))
+head(interesting)
+
+## I will calculate all available measures for the first 5 rules and show them in a table format where the measures are rows 
+t(interestMeasure(head(rules, 5), transactions = titanic))
+
+
+
+# find redundant rules
+subset.matrix <- is.subset(sortedrulesdata, sortedrulesdata)
+subset.matrix[lower.tri(subset.matrix, diag=T)] <- NA
+redundant <- colSums(subset.matrix, na.rm=T) >= 1
+which(redundant)
+
+# remove redundant rules
+rules.pruned <- sortedrulesdata[!redundant]
+inspect(rules.pruned)
+
+```
+
+6. Continue exploring various interestingness measures - how to describe them the best, using perhaps the scatterplots measuring the effect of each field in the 2x2 tables. (e.g. how would symmetry look like, or other properties).
+
+```{r}
+interestfunc <- function(f11, F1plus, Fplus1){
+  interest <- ((10000 * f11)/(F1plus*Fplus1))
+  return (interest)
+}
+
+convictionfunc <- function(F1plus, Fplus0, f10){
+  conviction <- ((F1plus*Fplus0)/(10000 * f10))
+  return (conviction)
+}
+
+interest <- interestfunc(randomGen[,c(1)], randomGen[,c(5)], randomGen[,c(7)])
+conviction <- convictionfunc(randomGen[,c(5)], randomGen[,c(8)], randomGen[,c(3)])
+
+
+
+interest <- interestfunc(top10[,c(1)], top10[,c(5)], top10[,c(7)])
+conviction <- convictionfunc(top10[,c(5)], top10[,c(8)], top10[,c(3)])
+
+
+
+top10 <- cbind(top10, interest)
+top10 <- cbind(top10, conviction)
+randomGen <- cbind(randomGen, interest)
+randomGen <- cbind(randomGen, conviction)
+
+head(top10, 10)
+
+
+
+top10df <- as.data.frame(top10)
+randomGenNew <- as.data.frame(randomGen)
+
+library(lattice)
+
+plot(x = top10df$laplace, y=top10df$certainityFactor, main="Laplace vs Certainity factor top10", xlab="Laplace values ", ylab="certainityFactor", col=c('Green','Red'))
+
+plot(x = top10df$conviction, y=top10df$certainityFactor, main="conviction vs Certainity factor top10", xlab="conviction values ", ylab="certainityFactor", col=c('Green','Red'))
+
+
+plot(x = randomGenNew$laplace, y=randomGenNew$certainityFactor, main="Laplace vs Certainity factor allValues", xlab="Laplace values ", ylab="certainityFactor", col=c('Green','Red'))
+
+plot(x = randomGenNew$conviction, y=randomGenNew$certainityFactor, main="conviction vs Certainity factor allValues", xlab="conviction values ", ylab="certainityFactor", col=c('Green','Red'))
+
+
+```
