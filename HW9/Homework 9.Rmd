@@ -12,7 +12,7 @@ When you click the **Knit** button a document will be generated that includes bo
 ```{r}
 
 roctrue <- read.table("C:/Users/Kenigbolo PC/Desktop/Data Mining/HomeWorks/HW9/roc/data.class")
-roc1 <- read.csv("C:/Users/Kenigbolo PC/Desktop/Data Mining/HomeWorks/HW9/roc/roc4/roc0.5.csv")
+roc1 <- read.csv("C:/Users/Kenigbolo PC/Desktop/Data Mining/HomeWorks/HW9/roc/roc1/roc0.9.csv")
 
 
 checkfunction(roctrue, roc1)
