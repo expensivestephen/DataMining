@@ -1,0 +1,129 @@
+---
+title: "Homework 10"
+author: "Kenigbolo Meya Stephen"
+date: "April 15, 2016"
+output: word_document
+---
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+test <- read.table("C:/Users/Kenigbolo PC/Desktop/Data Mining/HomeWorks/HW10/kaggle/test.csv", sep = ",")
+
+colnames(test) = c("ID","connections","foreign_conns","foreign_conns2","ccf","conns_new","time","ccf_old","account_age","agegroup","browserID","days","usage1","usage2","usage3","usage4","usage5")
+
+test = test[-1, ]
+test[1] <- NULL
+test$target <- NA
+
+train <- read.table("C:/Users/Kenigbolo PC/Desktop/Data Mining/HomeWorks/HW10/kaggle/train.csv", sep = ",")
+print(train[1, ])
+
+colnames(train) = c("connections","foreign_conns","foreign_conns2","ccf","conns_new","time","ccf_old","account_age","agegroup","browserID","days","usage1","usage2","usage3","usage4","usage5", "target")
+
+
+train = train[-1, ]
+
+
+test[!complete.cases(test),] #List row of data with missing values for test
+
+train[!complete.cases(train),] #List row of data with missing values for test
+
+newdata <- rbind(train, test)
+
+write.csv(newdata, file = "C:/Users/Kenigbolo PC/Desktop/Data Mining/HomeWorks/HW10/kaggle/combined.csv")
+```
+
+You can also embed plots, for example:
+
+```{r, echo=FALSE}
+check <- function(a, b) {
+  a$class <- "Actual"
+  b$class <- "Predicted"
+  
+  check <- rbind(a, b)
+  dupRows <- dupsBetweenGroups(check, "class")
+  sec_check <- cbind(check, dup=dupRows)
+  
+  print(sec_check)
+}
+
+
+
+sub_again <- read.table("C:/Users/Kenigbolo PC/Desktop/submit3", sep = ",")
+sub2 <- sub_again$V17
+
+testsub <- read.table("C:/Users/Kenigbolo PC/Desktop/Data Mining/HomeWorks/HW10/kaggle/sampleSubmission.csv", sep = ",")
+colnames(testsub) <- c("ID","target")
+testsub = testsub[-1, ]
+testsub$target <- sub2
+write.csv(testsub, file = "C:/Users/Kenigbolo PC/Desktop/Data Mining/HomeWorks/HW10/kaggle/FifthSubmission.csv")
+
+
+
+
+
+m2 <- lm(data=trainDiamond, price ~ .+ poly(trainDiamond$carat,2))
+m3 <- lm(data=trainDiamond, price ~ .+ poly(trainDiamond$carat,3)+poly(trainDiamond$depth,3))
+
+
+```
+
+
+
+Question 3 Preprocessing
+```{r}
+diabetes <- read.table("C:/Users/Kenigbolo PC/Desktop/Data Mining/HomeWorks/HW10/pima-indians-diabetes.data", sep = ",")
+write.csv(diabetes, file = "C:/Users/Kenigbolo PC/Desktop/Data Mining/HomeWorks/HW10/diabetes.csv")
+```
+
+
+Question 4 Preprocessing
+```{r}
+library(ggplot2)
+data(diamonds)
+summary(diamonds)
+
+#ModeL A
+write.csv(diamonds, file = "C:/Users/Kenigbolo PC/Desktop/Data Mining/HomeWorks/HW10/diamonds.csv")
+
+#Model B
+diamonds$new2carat <- poly(diamonds$carat,2)
+diamonds$new2depth <- poly(diamonds$depth,2)
+write.csv(diamonds, file = "C:/Users/Kenigbolo PC/Desktop/Data Mining/HomeWorks/HW10/diamonds_B.csv")
+
+#Model C
+diamonds$new3carat <- poly(diamonds$carat,3)
+diamonds$new3depth <- poly(diamonds$depth,3)
+write.csv(diamonds, file = "C:/Users/Kenigbolo PC/Desktop/Data Mining/HomeWorks/HW10/diamonds_C.csv")
+
+#Model D
+diamonds$new3X <- poly(diamonds$x,3)
+diamonds$new3Y <- poly(diamonds$y,3)
+diamonds$new3Z <- poly(diamonds$z,3)
+write.csv(diamonds, file = "C:/Users/Kenigbolo PC/Desktop/Data Mining/HomeWorks/HW10/diamonds_D.csv")
+
+train <- read.csv("C:/Users/Kenigbolo PC/Desktop/Data Mining/HomeWorks/HW10/Diamonds/Model A/diamonds_train.csv")
+test <- read.csv("C:/Users/Kenigbolo PC/Desktop/Data Mining/HomeWorks/HW10/Diamonds/Model A/diamond_test.csv")
+
+#ModeL A
+ModelA <- lm(data=train, price ~ .)
+
+#ModeL B
+ModelB <- lm(data=train, price ~ + poly(carat,2)+poly(depth,2))
+
+#ModeL C
+ModelC <- lm(data=train, price ~ + poly(carat,3)+poly(depth,3))
+
+#ModeL D
+ModelD <- lm(data=train, price ~ + poly(carat,3)+poly(depth,3)+poly(x,2)+poly(y,2)+poly(z,2))
+
+
+pred <- predict(data=test, ModelA)
+summary(pred)
+
+write.table(diamonds, file = "C:/Users/Kenigbolo PC/Desktop/Data Mining/HomeWorks/HW10/model.txt")
+
+```
