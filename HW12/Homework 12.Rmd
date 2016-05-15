@@ -1,0 +1,161 @@
+---
+title: "Homework 11"
+author: "Kenigbolo Meya Stephen"
+date: "May 11, 2016"
+output: word_document
+---
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+
+Question 1
+```{r}
+data <- read.table("C:/Users/Kenigbolo PC/Desktop/Data Mining/HomeWorks/HW12/DM2016.txt", sep = ' ', header = FALSE)
+data.with.rownames <- data.frame(data[,-1], row.names=data[,1])
+
+
+# k20 <- kmeans(data.with.rownames[,1:1921], centers = 20)
+# sortedk20 <- sort(k20$cluster, decreasing = FALSE)
+# write(names(sortedk20), "C:/Users/Kenigbolo PC/Desktop/Data Mining/HomeWorks/HW12/k20.txt", sep="\n")
+# 
+# k40 <- kmeans(data.with.rownames[,1:1921], centers = 40)
+# sortedk40 <- sort(k40$cluster, decreasing = FALSE)
+# write(names(sortedk40), "C:/Users/Kenigbolo PC/Desktop/Data Mining/HomeWorks/HW12/k40.txt", sep="\n")
+# 
+# k60 <- kmeans(data.with.rownames[,1:1921], centers = 60)
+# sortedk60 <- sort(k60$cluster, decreasing = FALSE)
+# write(names(sortedk60), "C:/Users/Kenigbolo PC/Desktop/Data Mining/HomeWorks/HW12/k60.txt", sep="\n")
+
+k100 <- kmeans(data.with.rownames[,1:1921], centers = 100)
+sortedk100 <- sort(k100$cluster, method="radix")
+write(names(sortedk100), "C:/Users/Kenigbolo PC/Desktop/Data Mining/HomeWorks/HW12/k100.txt", sep="\n")
+
+
+# sums <- rowSums(data.with.rownames[,1:1921], na.rm = F, dims = 1)
+# sorted <- sort(sums, decreasing = T)
+# write(names(sorted), "C:/Users/Kenigbolo PC/Desktop/Data Mining/HomeWorks/HW12/sort.txt", sep="\n")
+# 
+# 
+# hc <- hclust(dist(data.with.rownames[,1:1921]))
+# order_labels <- data.frame(hc$labels, hc$order)
+# sortedhc <- order_labels[order(order_labels[,2]), ]
+# write(as.vector(sortedhc[,1]), "C:/Users/Kenigbolo PC/Desktop/Data Mining/HomeWorks/HW12/hclust.txt", sep="\n")
+
+```
+
+
+Question 2
+```{r}
+library(pca3d)
+library(rgl)
+library(ggplot2)
+
+data.pca <- prcomp(data.with.rownames[, 1:100], center = TRUE, scale. = TRUE)
+
+summary(data.pca)
+
+
+pca3d(data.pca, group=data[,1])
+snapshotPCA3d("C:/Users/Kenigbolo PC/Desktop/Data Mining/HomeWorks/HW12/Question2.png")
+
+
+pcavalues <- data.frame(data.with.rownames, data.pca$x[,1:3])
+
+qplot(x=PC1, y=PC2, data=pcavalues)
+qplot(x=PC1, y=PC3, data=pcavalues)
+qplot(x=PC2, y=PC3, data=pcavalues)
+
+```
+
+
+Question 3
+```{r}
+censusData <- read.table("C:/Users/Kenigbolo PC/Desktop/Data Mining/HomeWorks/HW12/extract_medium.csv", sep = ";", header = TRUE)
+
+census <- censusData[c(5,9,20)]
+
+heatfunc <- function(x, y) {
+  censusA <- subset(census, Sex == x & Education == y)
+  print (mean(censusA[["Earnings"]]))
+}
+
+for (y in 0:16) {
+  for (x in 1:2){
+    heatfunc(x,y)
+  }
+}
+
+```
+
+
+
+Question 4
+```{r, echo=FALSE}
+census2 <- censusData[c(7,9,20)]
+
+heatfunc2 <- function(x, y) {
+  censusB <- subset(census2, Race == x & Education == y)
+  print (mean(censusB[["Earnings"]]))
+}
+
+for (y in 0:16) {
+  for (x in 1:9){
+    heatfunc2(x,y)
+  }
+}
+
+
+```
+
+
+
+Question 6
+```{r, echo=FALSE}
+library(e1071)
+
+cl<-cmeans(data.with.rownames[,1:1921], 100, 150,verbose=TRUE,method="cmeans", dist="euclidean")
+sortedcl <- sort(cl$cluster, decreasing = FALSE)
+write(names(sortedcl), "C:/Users/Kenigbolo PC/Desktop/Data Mining/HomeWorks/HW12/cl-clust.txt", sep="\n")
+
+cl<-cmeans(data.with.rownames[,1:1921],100,500,verbose=FALSE,method="cmeans")
+sortedcl <- sort(cl$cluster, decreasing = FALSE)
+write(names(sortedcl), "C:/Users/Kenigbolo PC/Desktop/Data Mining/HomeWorks/HW12/cl-clust.txt", sep="\n")
+
+csh<-cshell(data.with.rownames[,1:1921],100,150,verbose=FALSE,method="cshell")
+sortedcsh <- sort(csh$cluster, decreasing = FALSE)
+write(names(sortedcsh), "C:/Users/Kenigbolo PC/Desktop/Data Mining/HomeWorks/HW12/csh-clust.txt", sep="\n")
+
+
+larger = function(pair) {
+   if(pair[1] > pair[2]) return(TRUE) else return(FALSE)
+}
+
+swap_if_larger = function(pair) {
+    if(larger(pair)) {
+        return(rev(pair)) 
+    } else {
+        return(pair)
+    }
+}
+
+swap_pass = function(vec) { 
+    for(i in seq(1, length(vec)-1)) {
+        vec[i:(i+1)] = swap_if_larger(vec[i:(i+1)])
+    }
+    return(vec)
+}
+
+bubble_sort_recursive = function(vec) {
+    new_vec = swap_pass(vec)
+    if(isTRUE(all.equal(vec, new_vec))) { 
+        return(new_vec) 
+    } else {
+        return(bubble_sort(new_vec))
+    }
+}
+
+
+
+```

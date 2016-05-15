@@ -126,4 +126,7 @@ summary(pred)
 
 write.table(diamonds, file = "C:/Users/Kenigbolo PC/Desktop/Data Mining/HomeWorks/HW10/model.txt")
 
+
+
+
 ```

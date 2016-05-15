@@ -1,0 +1,266 @@
+<!-- GET THE AVERAGE FOR ALL MARRIAGE VALUES EARNINGS WHEN SEX VALUE IS 1 -->
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Sex = 1 AND Marriage =1 LIMIT 0, 25000
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Sex = 1 AND Marriage =2 LIMIT 0, 25000
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Sex = 1 AND Marriage =3 LIMIT 0, 25000
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Sex = 1 AND Marriage =4 LIMIT 0, 25000
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Sex = 1 AND Marriage =5 LIMIT 0, 25000
+
+<!-- GET THE AVERAGE FOR ALL MARRIAGE VALUES EARNINGS WHEN SEX VALUE IS 2 -->
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Sex = 2 AND Marriage =1 LIMIT 0, 25000
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Sex = 2 AND Marriage =2 LIMIT 0, 25000
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Sex = 2 AND Marriage =3 LIMIT 0, 25000
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Sex = 2 AND Marriage =4 LIMIT 0, 25000
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Sex = 2 AND Marriage =5 LIMIT 0, 25000
+
+<!-- CREATE SUMMARIZATION TABLE AND INPUT SUMMARIZATION VALUES FOR SEX VS MARRIAGE EARNINGS-->
+
+CREATE TABLE SexMarriage (Marriage Int, Sex1 Float, Sex2 Float)
+
+INSERT INTO SexMarriage VALUES (1,40067.98,24642.57)
+
+INSERT INTO SexMarriage VALUES (2,18716.37,35416.55)
+
+INSERT INTO SexMarriage VALUES (3,9742.265,16176.84)
+
+INSERT INTO SexMarriage VALUES (4,5185.334,14028.28)
+
+INSERT INTO SexMarriage VALUES (5,34463.77,10621.21)
+
+<!-- DISPLAY SEX AND MARRIAGE EARNINGS SUMMARIZATION PIVOT TABLE -->
+
+SELECT * FROM SexMarriage
+
+
+
+<!-- GET THE AVERAGE FOR ALL MARRIAGE VALUES EARNINGS WHEN LANGUAGE VALUE IS 0 -->
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Language = 0 AND Race = 1 LIMIT 0, 25000
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Language = 0 AND Race = 2 LIMIT 0, 25000
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Language = 0 AND Race = 3 LIMIT 0, 25000
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Language = 0 AND Race = 4 LIMIT 0, 25000
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Language = 0 AND Race = 5 LIMIT 0, 25000
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Language = 0 AND Race = 6 LIMIT 0, 25000
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Language = 0 AND Race = 7 LIMIT 0, 25000
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Language = 0 AND Race = 8 LIMIT 0, 25000
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Language = 0 AND Race = 9 LIMIT 0, 25000
+
+<!-- GET THE AVERAGE FOR ALL MARRIAGE VALUES EARNINGS WHEN LANGUAGE VALUE IS 1 -->
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Language = 1 AND Race = 1 LIMIT 0, 25000
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Language = 1 AND Race = 2 LIMIT 0, 25000
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Language = 1 AND Race = 3 LIMIT 0, 25000
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Language = 1 AND Race = 4 LIMIT 0, 25000
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Language = 1 AND Race = 5 LIMIT 0, 25000
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Language = 1 AND Race = 6 LIMIT 0, 25000
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Language = 1 AND Race = 7 LIMIT 0, 25000
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Language = 1 AND Race = 8 LIMIT 0, 25000
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Language = 1 AND Race = 9 LIMIT 0, 25000
+
+<!-- GET THE AVERAGE FOR ALL MARRIAGE VALUES EARNINGS WHEN LANGUAGE VALUE IS 2 -->
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Language = 2 AND Race = 1 LIMIT 0, 25000
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Language = 2 AND Race = 2 LIMIT 0, 25000
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Language = 2 AND Race = 3 LIMIT 0, 25000
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Language = 2 AND Race = 4 LIMIT 0, 25000
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Language = 2 AND Race = 5 LIMIT 0, 25000
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Language = 2 AND Race = 6 LIMIT 0, 25000
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Language = 2 AND Race = 7 LIMIT 0, 25000
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Language = 2 AND Race = 8 LIMIT 0, 25000
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Language = 2 AND Race = 9 LIMIT 0, 25000
+
+<!-- GET THE AVERAGE FOR ALL MARRIAGE VALUES EARNINGS WHEN LANGUAGE VALUE IS 3 -->
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Language = 3 AND Race = 1 LIMIT 0, 25000
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Language = 3 AND Race = 2 LIMIT 0, 25000
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Language = 3 AND Race = 3 LIMIT 0, 25000
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Language = 3 AND Race = 4 LIMIT 0, 25000
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Language = 3 AND Race = 5 LIMIT 0, 25000
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Language = 3 AND Race = 6 LIMIT 0, 25000
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Language = 3 AND Race = 7 LIMIT 0, 25000
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Language = 3 AND Race = 8 LIMIT 0, 25000
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Language = 3 AND Race = 9 LIMIT 0, 25000
+
+<!-- GET THE AVERAGE FOR ALL MARRIAGE VALUES EARNINGS WHEN LANGUAGE VALUE IS 4 -->
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Language = 4 AND Race = 1 LIMIT 0, 25000
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Language = 4 AND Race = 2 LIMIT 0, 25000
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Language = 4 AND Race = 3 LIMIT 0, 25000
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Language = 4 AND Race = 4 LIMIT 0, 25000
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Language = 4 AND Race = 5 LIMIT 0, 25000
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Language = 4 AND Race = 6 LIMIT 0, 25000
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Language = 4 AND Race = 7 LIMIT 0, 25000
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Language = 4 AND Race = 8 LIMIT 0, 25000
+
+SELECT AVG(Earnings) 
+FROM censusdata
+WHERE Language = 4 AND Race = 9 LIMIT 0, 25000
+
+<!-- CREATE SUMMARIZATION TABLE AND INPUT SUMMARIZATION VALUES FOR RACE VS LANGUAGE EARNINGS-->
+
+CREATE TABLE RaceLanguage (Language Int, Race1 Float, Race2 Float, Race3 Float, Race4 Float, Race5 Float, Race6 Float, Race7 Float, Race8 Float, Race9 Float)
+
+INSERT INTO RaceLanguage VALUES (1, 25156.58, 20673.16, 15539.24, 34977.78, 6252.632, 10892, Null, 16164.44, 16350)
+
+INSERT INTO RaceLanguage VALUES (2, 12756.02, 19872.22, 10562.5, 12013.95, Null, 10948.73, 8444.444, 6368.955, 3992.865)
+
+INSERT INTO RaceLanguage VALUES (3, 13854.46, 7491.513, 9200, 16825.71, 11236.36, 11237.91, 9706.108, 22250, Null)
+
+INSERT INTO RaceLanguage VALUES (4, 22500, 13666.01, 9276.429, 12318.22, 18059.02, 250, Null, 0, 7648.015)
+
+INSERT INTO RaceLanguage VALUES (5, 12836, 20559.68, 23202.76, 17813.33, Null, 5150, 12616.14, Null, 7181.481)

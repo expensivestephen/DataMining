@@ -1,0 +1,11 @@
+CREATE DATABASE census
+
+USE census
+
+CREATE TABLE censusdata (State text, House_id Int, Weight Int, House_relation Int, Sex Int, Age Int, Race Int, Marriage Int, Education Int, Ancestry Int, Language Int, Employment_status Int, Traveltime Int, Industry Int, Occupation Int, Hours Int, Weeks Int, Salary Int, Income Int, Earnings Int)
+
+LOAD DATA LOCAL INFILE 'C:/Users/Kenigbolo PC/Desktop/Data Mining/HomeWorks/HW12/extract_medium.csv' INTO TABLE censusdata FIELDS TERMINATED BY ';'
+
+DESC censusdata
+
+SELECT * FROM censusdata LIMIT 0, 25000

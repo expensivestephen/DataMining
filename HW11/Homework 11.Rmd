@@ -1,0 +1,58 @@
+---
+title: "Homework 11"
+author: "Kenigbolo Meya Stephen"
+date: "April 23, 2016"
+output: word_document
+---
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+Question 1
+```{r}
+library(Rcmdr)
+linear <- read.table("C:/Users/Kenigbolo PC/Desktop/Data Mining/HomeWorks/HW11/Question 1/Linear.csv", sep = ",", header = TRUE)
+scatter3d(linear$X, linear$Y, linear$Class)
+```
+
+
+
+Question 2
+```{r}
+clusterdata <- read.table("C:/Users/Kenigbolo PC/Desktop/Data Mining/HomeWorks/HW11/Question 2/Clustering.csv", sep = ",", header = TRUE)
+clusterdata <- clusterdata[-c(1),]
+data <- as.matrix(clusterdata)
+data <- dist(data, method = "euclidean")
+
+cluster <- hclust(data, method = "complete")
+plot(cluster)
+
+cluster <- hclust(data, method = "single")
+plot(cluster)
+```
+
+
+Question 3
+```{r}
+library(cluster)
+library(fpc)
+
+newclust <- kmeans(as.matrix(clusterdata), centers = clusterdata[c(1:4),])
+clusplot(clusterdata, newclust$cluster, color=TRUE, shade=TRUE, labels=2, lines=0)
+
+
+```
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
+```{r}
+library(randomForest)
+kaggle_train <- read.table("C:/Users/Kenigbolo PC/Desktop/Data Mining/HomeWorks/HW10/kaggle/Main/train.csv", sep = ",", header = TRUE)
+kaggle_test <- read.table("C:/Users/Kenigbolo PC/Desktop/Data Mining/HomeWorks/HW10/kaggle/Main/test.csv", sep = ",", header = TRUE)
+
+rf_fit<-randomForest(target ~ usage1+usage2+usage3+usage4+usage5+ccf+ccf_old+time,data=kaggle_train, ntree=2000)
+predictions<-predict(rf_fit,newdata=kaggle_test)
+write.csv(predictions, file = "C:/Users/Kenigbolo PC/Desktop/Data Mining/HomeWorks/HW10/kaggle/prediction.csv")
+
+```
